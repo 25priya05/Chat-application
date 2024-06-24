@@ -7,3 +7,4 @@ const Chat = ({set,open}) => {
 };
 
 export default Chat;
+//git checkout -b branch_name
