@@ -1,52 +1,46 @@
-import React from "react";
-import "./LoginSignup.css";
+import React, { useState } from "react";
+import { login } from "../Request/Auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [action, setAction] = useState("Sign Up");
+    const [input, setInput] = useState({
+        email: "",
+        password: "",
+    });
+    const [open, setOpen] = useState(false);
+    const redirect = useNavigate();
     return (
-        <div className="container">
-            <div className="header">
-                <div className="text"> {action} </div>{" "}
-                <div className="underline"> </div>
-            </div>{" "}
-            <div className="inputs">
-                <div className="input">
-                    <img src="user.png" alt="" />
-                    <input type="text" placeholder="Enter Your Name" />
-                </div>
-                <div className="input">
-                    <img src="mail.png" alt="" />
-                    <input type="email" placeholder="Enter your email " />
-                </div>{" "}
-                <div className="input">
-                    <img src="padlock.png" alt="" />
-                    <input type="password" placeholder="Enter Your Password" />
-                </div>
-            </div>{" "}
-            <div className="forgot-password">
-                Lost Password ? <span> Click Here! </span>{" "}
+        <form onSubmit={(e) => login(e, input, redirect)}>
+            <div>
+                <label> Email</label>
+                <input
+                    type="email"
+                    value={input.email}
+                    onChange={(e) =>
+                        setInput((t) => ({ ...t, email: e.target.value }))
+                    }
+                />
             </div>
-            <div className="submit-container">
-                <div
-                    className={action === "Login" ? "submit-gray" : "submit"}
-                    onClick={() => {
-                        setAction("Sign Up");
-                    }}
-                >
-                    {" "}
-                    Sign Up{" "}
-                </div>
-                <div
-                    className={action === "Sign Up" ? "submit gray" : "submit"}
-                    onClick={() => {
-                        setAction("Login");
-                    }}
-                >
-                    {" "}
-                    Login{" "}
-                </div>
+            <div>
+                <label> Password</label>
+                <input
+                    type={open ? "text" : "password"}
+                    value={input.password}
+                    onChange={(e) =>
+                        setInput((t) => ({ ...t, password: e.target.value }))
+                    }
+                />
             </div>
-        </div>
+            <div>
+                <input
+                    type="checkbox"
+                    value={open}
+                    onChange={() => setOpen((t) => !t)}
+                />
+                <label>Show Password </label>
+            </div>
+            <button type="submit"> Submit</button>
+        </form>
     );
 };
 
