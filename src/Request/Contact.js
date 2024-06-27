@@ -1,6 +1,6 @@
 import Cookie from "js-cookie";
 import { toast } from "react-toastify";
-export const getContacts = async (set) => {
+export const getContacts = async (set, socket, id) => {
     const token = Cookie.get("token");
     if (token) {
         const res = await fetch(
@@ -12,6 +12,8 @@ export const getContacts = async (set) => {
             }
         );
         if (res.status === 200) {
+            socket?.emit("addUser", id);
+
             set(await res.json());
         }
     }

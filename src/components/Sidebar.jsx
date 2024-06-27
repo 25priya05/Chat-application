@@ -4,6 +4,8 @@ import Contacts from "./Contacts";
 import ChatHeader from "./ChatHeader";
 import NewChat from "./NewChat";
 import NewGroup from "./NewGroup";
+import { useSocket } from "../Store/Socket";
+import { useAuth } from "../Store/Auth";
 
 const Sidebar = ({ set, open ,changeContact}) => {
     const [contacts, SetContact] = useState([]);
@@ -11,9 +13,14 @@ const Sidebar = ({ set, open ,changeContact}) => {
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [panel, setPanel] = useState("contacts");
     const [trigger, setTrigger] = useState(false);
+    const socket = useSocket()
+    const {user} = useAuth()
 
     useEffect(() => {
-        getContacts(SetContact);
+        if(user){
+
+            getContacts(SetContact,socket,user.id);
+        }
     }, [trigger]);
 
     useEffect(() => {

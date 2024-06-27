@@ -2,7 +2,7 @@ import React from "react";
 
 const MessagesList = ({ messages }) => {
     return (
-        <div className="flex flex-col w-full ">
+        <div className="flex flex-col-reverse w-full ">
             {messages.map((msg, index) => (
                 <div
                     key={index}
