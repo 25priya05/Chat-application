@@ -28,7 +28,7 @@ const Chat = ({
 
     useEffect(() => {
         if (socket) {
-            socket.on("getmessage", (data) => {
+            socket.on("getMessage", (data) => {
                 if (data.chatId === contact) {
                     setMessages([
                         ...messages,
