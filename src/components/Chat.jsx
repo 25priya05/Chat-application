@@ -23,7 +23,7 @@ const Chat = ({
             userId: user.id,
             message,
         });
-        setMessages([...messages, { text: message, isSender: true }]);
+        setMessages([{ text: message, isSender: true }, ...messages]);
     };
 
     useEffect(() => {
@@ -31,11 +31,11 @@ const Chat = ({
             socket.on("getMessage", (data) => {
                 if (data.chatId === contact) {
                     setMessages([
-                        ...messages,
                         {
                             text: data.message,
                             isSender: data.userId === user.id,
                         },
+                        ...messages,
                     ]);
                 }
             });
