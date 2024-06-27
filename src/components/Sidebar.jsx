@@ -21,7 +21,7 @@ const Sidebar = ({ set, open ,changeContact}) => {
 
             getContacts(SetContact,socket,user.id);
         }
-    }, [trigger]);
+    }, [trigger,user]);
 
     useEffect(() => {
         if (search !== "") {
