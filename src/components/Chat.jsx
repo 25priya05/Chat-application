@@ -40,7 +40,7 @@ const Chat = ({
                 }
             });
         }
-    });
+    }, [socket]);
     console.log(info);
     return (
         <div className={`w-full flex flex-col ${!open && "hidden"} md:flex `}>
