@@ -1,11 +1,16 @@
 import React from "react";
 
-const Contacts = ({ contacts }) => {
+const Contacts = ({ contacts ,set, changeContact }) => {
     return (
         <div className="flex-1 ">
             <ul className="p-4 space-y-4 ">
                 {contacts.map((contact) => (
                     <li
+                        onClick={()=>{
+                           
+                            changeContact(contact.id);
+                            set(true);
+                        }}
                         key={contact.id}
                         className="flex items-center space-x-4 p-2 rounded-lg hover:bg-slate-200"
                     >

@@ -8,11 +8,11 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         Cookie.remove("token");
     };
-
+   
     useEffect(() => {
         const fetchUserData = async () => {
             const token = Cookie.get("token");
-            console.log(token);
+            
             if (token) {
                 try {
                     const response = await fetch(

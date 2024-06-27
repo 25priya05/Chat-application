@@ -5,7 +5,7 @@ import ChatHeader from "./ChatHeader";
 import NewChat from "./NewChat";
 import NewGroup from "./NewGroup";
 
-const Sidebar = ({ set, open }) => {
+const Sidebar = ({ set, open ,changeContact}) => {
     const [contacts, SetContact] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredContacts, setFilteredContacts] = useState([]);
@@ -46,7 +46,7 @@ const Sidebar = ({ set, open }) => {
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                        <Contacts contacts={filteredContacts} />
+                        <Contacts contacts={filteredContacts} set = {set} changeContact ={changeContact} />
                     </>
                 )}
                 {panel === "chat" && (

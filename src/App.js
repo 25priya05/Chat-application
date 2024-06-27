@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./Store/Auth";
+import { SocketProvider } from "./Store/Socket";
 
 const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
@@ -16,8 +17,10 @@ const router = createBrowserRouter([
 const App = () => {
     return (
         <AuthProvider>
-            <RouterProvider router={router} />
-            <ToastContainer />
+            <SocketProvider>
+                <RouterProvider router={router} />
+                <ToastContainer />
+            </SocketProvider>
         </AuthProvider>
     );
 };
