@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getContacts } from "../Request/Contact";
 import Contacts from "./Contacts";
 import ChatHeader from "./ChatHeader";
 import NewChat from "./NewChat";
 import NewGroup from "./NewGroup";
-import { useSocket } from "../Store/Socket";
-import { useAuth } from "../Store/Auth";
 
-const Sidebar = ({ set, open ,changeContact}) => {
-    const [contacts, SetContact] = useState([]);
+const Sidebar = ({ set, open, changeContact, contacts, reload }) => {
     const [search, setSearch] = useState("");
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [panel, setPanel] = useState("contacts");
-    const [trigger, setTrigger] = useState(false);
-    const socket = useSocket()
-    const {user} = useAuth()
-
-    useEffect(() => {
-        if(user){
-
-            getContacts(SetContact,socket,user.id);
-        }
-    }, [trigger,user]);
 
     useEffect(() => {
         if (search !== "") {
@@ -33,6 +19,7 @@ const Sidebar = ({ set, open ,changeContact}) => {
         }
     }, [search, contacts]);
 
+    console.log(contacts);
     return (
         <div
             className={`w-full md:w-96 bg-slate-100 ${
@@ -53,20 +40,23 @@ const Sidebar = ({ set, open ,changeContact}) => {
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                        <Contacts contacts={filteredContacts} set = {set} changeContact ={changeContact} />
+                        {contacts.length === 0 && (
+                            <div className="text-gray-700  w-full text-center italic ">
+                                No Contacts Yet...
+                            </div>
+                        )}
+                        {contacts.length !== 0 && (
+                            <Contacts
+                                contacts={filteredContacts}
+                                set={set}
+                                changeContact={changeContact}
+                            />
+                        )}
                     </>
                 )}
-                {panel === "chat" && (
-                    <NewChat
-                        set={setPanel}
-                        reload={() => setTrigger((t) => !t)}
-                    />
-                )}
+                {panel === "chat" && <NewChat set={setPanel} reload={reload} />}
                 {panel === "group" && (
-                    <NewGroup
-                        set={setPanel}
-                        reload={() => setTrigger((t) => !t)}
-                    />
+                    <NewGroup set={setPanel} reload={reload} />
                 )}
             </div>
         </div>
