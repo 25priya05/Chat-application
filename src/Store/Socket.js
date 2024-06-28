@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import Loading from "../components/Loading";
 
 const socketContext = createContext();
 
@@ -12,7 +13,8 @@ export const SocketProvider = ({ children }) => {
 
     return (
         <socketContext.Provider value={socket}>
-            {children}
+            {socket && <>{children}</>}
+            {!socket && <Loading/>}
         </socketContext.Provider>
     );
 };

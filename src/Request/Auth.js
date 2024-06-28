@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import Cookie from "js-cookie";
-export const login = async (e, input, redirect) => {
+export const login = async (e, input, redirect, reload) => {
     e.preventDefault();
 
     if (input.email === "") {
@@ -27,6 +27,7 @@ export const login = async (e, input, redirect) => {
             // console.log(data.token);
             Cookie.set("token", data.token);
             toast.success("Your are logged in successfully");
+            reload();
             redirect("/");
         }
     } catch (error) {
@@ -34,7 +35,7 @@ export const login = async (e, input, redirect) => {
         toast.error(error.message);
     }
 };
-export const register = async (e, input, redirect) => {
+export const register = async (e, input, redirect, reload) => {
     e.preventDefault();
 
     if (input.name === "") {
@@ -65,6 +66,7 @@ export const register = async (e, input, redirect) => {
             // console.log(data.token);
             Cookie.set("token", data.token);
             toast.success("Your are logged in successfully");
+            reload();
             redirect("/");
         }
     } catch (error) {

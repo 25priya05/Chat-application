@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { login, register } from "../Request/Auth";
+import { register } from "../Request/Auth";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../Store/Auth";
 
 const Register = () => {
     const [input, setInput] = useState({
@@ -10,10 +11,11 @@ const Register = () => {
     });
     const [open, setOpen] = useState(false);
     const redirect = useNavigate();
+    const { reload } = useAuth();
     return (
         <form
             className="flex flex-col w-fit justify-center items-center m-auto gap-4 "
-            onSubmit={(e) => register(e, input, redirect)}
+            onSubmit={(e) => register(e, input, redirect, reload)}
         >
             <h1 className="text-6xl font-bold mb-4  ">Create Your Account</h1>
             <div className="flex flex-col gap-1 ">
