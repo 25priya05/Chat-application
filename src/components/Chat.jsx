@@ -19,6 +19,7 @@ const Chat = ({
     const { user } = useAuth();
 
     const ref = useRef(null);
+
     useEffect(() => {
         if (ref.current) {
             ref.current.scrollTop = ref.current.scrollHeight;
@@ -31,50 +32,62 @@ const Chat = ({
             userId: user.id,
             message,
         });
-        setMessages((t) => [{ text: message, isSender: true }, ...t]);
+        setMessages((prevMessages) => [
+            { text: message, isSender: true },
+            ...prevMessages,
+        ]);
     };
 
     useEffect(() => {
         if (socket) {
             socket.on("getMessage", (data) => {
-                console.log("running");
                 if (data.chatId === contact) {
-                    setMessages((t) => [
+                    setMessages((prevMessages) => [
                         {
                             text: data.message,
                             isSender: data.userId === user.id,
                         },
-                        ...t,
+                        ...prevMessages,
                     ]);
                 }
             });
         }
-    }, [socket]);
-    console.log(info);
+        return () => {
+            if (socket) {
+                socket.off("getMessage");
+            }
+        };
+    }, [socket, contact, user.id, setMessages]);
+
     return (
-        <div className={`w-full flex flex-col ${!open && "hidden"} md:flex `}>
-            {" "}
-            <div className="w-full h-20 flex items-center">
+        <div className={`w-full flex flex-col ${!open && "hidden"} md:flex`}>
+            <div className="w-full h-20 flex items-center border-b border-gray-300 bg-white">
                 <IoMdArrowRoundBack
-                    className="text-4xl cursor-pointer"
+                    className="text-2xl ml-4 cursor-pointer"
                     onClick={() => {
                         changeContact("");
                         set(false);
                     }}
                 />
+
                 <div className="w-12 h-12 rounded-full mr-4 bg-gray-500 flex items-center justify-center text-white font-bold text-lg">
                     {info?.name[0].toUpperCase()}
                 </div>
-                <div className="flex flex-col">{info.name}</div>
+
+                <div className="flex flex-col">
+                    <span className="text-sm font-semibold">{info.name}</span>
+                </div>
             </div>
-            <div className="flex-1 overflow-y-scroll p-4" ref={ref}>
-                <MessagesList messages={messages} />
+
+            <div className="flex-1 overflow-y-auto bg-gray-100">
+                <div className="p-4" ref={ref}>
+                    <MessagesList messages={messages} />
+                </div>
             </div>
+
             <ChatInput addMessage={addMessage} />
         </div>
     );
 };
 
 export default Chat;
-
-//git checkout -b branch_name
