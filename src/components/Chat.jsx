@@ -33,15 +33,9 @@ const Chat = ({
             userId: user.id,
             message,
         });
-<<<<<<< HEAD
-        setMessages((prevMessages) => [
-            { text: message, isSender: true },
-            ...prevMessages,
-        ]);
-=======
+
         setMessages((t) => [{ text: message, isSender: true }, ...t]);
         changeMessages(message, contact);
->>>>>>> 2968b55f3ff852488991be8cb3f35e79d5ac3e81
     };
 
     useEffect(() => {
