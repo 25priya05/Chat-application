@@ -14,6 +14,7 @@ const Chat = ({
     info,
     messages,
     setMessages,
+    changeMessages,
 }) => {
     const socket = useSocket();
     const { user } = useAuth();
@@ -32,6 +33,7 @@ const Chat = ({
             message,
         });
         setMessages((t) => [{ text: message, isSender: true }, ...t]);
+        changeMessages(message, contact);
     };
 
     useEffect(() => {
@@ -46,6 +48,7 @@ const Chat = ({
                         },
                         ...t,
                     ]);
+                    changeMessages(data.message, contact);
                 }
             });
         }

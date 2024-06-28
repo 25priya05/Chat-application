@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../Request/Auth";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../Store/Auth";
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -8,11 +9,12 @@ const Login = () => {
         password: "",
     });
     const [open, setOpen] = useState(false);
+    const { reload } = useAuth();
     const redirect = useNavigate();
     return (
         <form
             className="flex flex-col w-fit justify-center items-center m-auto gap-4 "
-            onSubmit={(e) => login(e, input, redirect)}
+            onSubmit={(e) => login(e, input, redirect, reload)}
         >
             <h1 className="text-6xl font-bold mb-4  ">Login</h1>
             <div className="flex flex-col gap-1 ">

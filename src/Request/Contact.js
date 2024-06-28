@@ -12,7 +12,7 @@ export const getContacts = async (set, socket, id) => {
             }
         );
         if (res.status === 200) {
-            socket?.emit("addUser", id);
+            socket.emit("addUser", id);
 
             set(await res.json());
         }
