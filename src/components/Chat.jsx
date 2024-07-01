@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import MessagesList from "./MessagesList";
+import NoChat from "./NoChat";
 
 import { useSocket } from "../Store/Socket";
 import { useAuth } from "../Store/Auth";
@@ -58,7 +59,7 @@ const Chat = ({
                 socket.off("getMessage");
             }
         };
-    }, [socket, contact, user.id, setMessages]);
+    }, [socket, contact, user.id, setMessages, changeMessages]); // Added changeMessages to dependency array
 
     return (
         <div className={`w-full flex flex-col ${!open && "hidden"} md:flex`}>
@@ -82,7 +83,11 @@ const Chat = ({
 
             <div className="flex-1 overflow-y-auto bg-gray-100">
                 <div className="p-4" ref={ref}>
-                    <MessagesList messages={messages} />
+                    {messages.length > 0 ? (
+                        <MessagesList messages={messages} />
+                    ) : (
+                        <NoChat />
+                    )}
                 </div>
             </div>
 
