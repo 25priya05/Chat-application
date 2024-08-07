@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }) => {
     return (
         <socketContext.Provider value={socket}>
             {socket && <>{children}</>}
-            {!socket && <Loading/>}
+            {!socket && <Loading />}
         </socketContext.Provider>
     );
 };

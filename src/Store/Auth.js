@@ -1,51 +1,37 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookie from "js-cookie";
 import Loading from "../components/Loading";
+import fetch from "../components/fetch";
 const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setloading] = useState(true);
     const [trigger, setTrigger] = useState(false);
-    const signout = () => {
+    const signout = async () => {
         setUser(null);
-        Cookie.remove("token");
+        await fetch("user/logout");
     };
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const token = Cookie.get("token");
+        (async () => {
+            setloading(true);
+            const response = await fetch("user");
 
-            if (token) {
-                try {
-                    const response = await fetch(
-                        "https://chat-backend-p89z.onrender.com/user",
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
-                    if (response.status === 200) {
-                        const userData = await response.json();
-                        setUser(userData);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch user data:", error);
-                }
+            if (response.status === 200) {
+                const userData = await response.json();
+                setUser(userData);
+            } else {
+                setUser(null);
             }
             setloading(false);
-        };
-
-        fetchUserData();
+        })();
     }, [trigger]);
     const reload = () => setTrigger((t) => !t);
 
     return (
         <authContext.Provider value={{ user, signout, reload }}>
             {!loading && <>{children}</>}
-            {loading && <Loading/>}
+            {loading && <Loading />}
         </authContext.Provider>
     );
 };
