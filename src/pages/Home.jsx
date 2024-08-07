@@ -16,24 +16,25 @@ const Home = () => {
     const { user } = useAuth();
     const redirect = useNavigate();
     const [trigger, setTrigger] = useState(false);
-
     const socket = useSocket();
 
     useEffect(() => {
-        console.log(user);
         if (!user) {
             redirect("/login");
         }
-    }, [user]);
+    }, [user, redirect]);
     useEffect(() => {
         if (contact !== "") getMessages(contact, setMessages, setInfo);
+        else {
+            setInfo({});
+        }
     }, [contact]);
 
     useEffect(() => {
         if (user) {
             getContacts(setContacts, socket, user.id);
         }
-    }, [trigger, user]);
+    }, [trigger, user, socket]);
 
     useEffect(() => {
         if (socket) {
@@ -50,8 +51,6 @@ const Home = () => {
                         }
                     })
                 );
-
-                // console.log(users);
             });
         }
     }, [socket, contacts]);

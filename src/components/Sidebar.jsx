@@ -18,8 +18,6 @@ const Sidebar = ({ set, open, changeContact, contacts, reload }) => {
             setFilteredContacts(contacts);
         }
     }, [search, contacts]);
-
-    console.log(contacts);
     return (
         <div
             className={`w-full md:w-96 bg-slate-100 ${
